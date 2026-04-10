@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会稽山兰亭宴 · 商业模式汇报</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C5A355;--gold-light:#E8D5A0;--gold-dark:#9E8340;--ink:#1A1A2E;--ink-light:#2D2D44;--cream:#FAF7F0;--wine:#8B2252;--wine-light:#C06080;--jade:#2D7D6B;--jade-light:#3A9D88;--glass:rgba(255,255,255,0.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Noto Serif SC',serif}
+
+/* === HERO === */
+.hero{background:linear-gradient(140deg,#0D0D1A 0%,#1A1A2E 35%,#2A1F3D 65%,#1A1A2E 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 40px}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 60%,rgba(197,163,85,0.08) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(139,34,82,0.06) 0%,transparent 40%)}
+.hero::after{content:'';position:absolute;top:0;right:0;width:500px;height:500px;background:radial-gradient(circle,rgba(197,163,85,0.04) 0%,transparent 70%);animation:heroPulse 6s ease-in-out infinite}
+@keyframes heroPulse{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes borderGlow{0%,100%{border-color:rgba(197,163,85,0.2)}50%{border-color:rgba(197,163,85,0.5)}}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.hero-left{position:relative;z-index:2;animation:fadeUp 1s ease-out}
+.hero-left .label{font-size:0.7rem;color:var(--gold-light);letter-spacing:0.6em;opacity:0.6;margin-bottom:1.2rem;text-transform:uppercase}
+.hero-left h1{color:var(--gold);font-size:3.8rem;font-weight:900;letter-spacing:0.12em;line-height:1.2;margin-bottom:0.4rem;background:linear-gradient(135deg,var(--gold),#E8D5A0,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 4s linear infinite}
+.hero-left .sub{color:var(--gold-light);font-size:1.15rem;letter-spacing:0.35em;opacity:0.8;margin-bottom:1.5rem}
+.hero-left .desc{color:rgba(255,255,255,0.5);font-size:0.9rem;line-height:1.9;max-width:520px;margin-bottom:2.5rem}
+
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hero-stat{background:var(--glass);border:1px solid rgba(197,163,85,0.15);border-radius:14px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;animation:borderGlow 3s ease-in-out infinite}
+.hero-stat:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(197,163,85,0.15)}
+.hero-stat .num{color:var(--gold);font-size:2rem;font-weight:900;font-family:'Noto Serif SC',serif}
+.hero-stat .txt{color:var(--gold-light);font-size:0.7rem;opacity:0.7;margin-top:2px}
+.hero-stat .arrow{position:absolute;bottom:6px;right:8px;color:var(--gold);opacity:0;font-size:0.7rem;transition:opacity 0.2s}
+.hero-stat:hover .arrow{opacity:0.6}
+
+/* Right Panel */
+.hero-right{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;animation:fadeUp 1.2s ease-out}
+.kpi-card{background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);border:1px solid rgba(197,163,85,0.12);border-radius:16px;padding:20px;transition:all 0.3s;animation:floatCard 5s ease-in-out infinite}
+.kpi-card:nth-child(2){animation-delay:1s}
+.kpi-card:nth-child(3){animation-delay:2s}
+.kpi-card:nth-child(4){animation-delay:3s}
+.kpi-card:hover{border-color:rgba(197,163,85,0.35);background:rgba(255,255,255,0.05)}
+.kpi-card .kpi-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.kpi-card .kpi-title{font-size:0.75rem;color:rgba(255,255,255,0.5);letter-spacing:0.05em}
+.kpi-card .kpi-badge{font-size:0.65rem;padding:2px 8px;border-radius:6px;font-weight:600}
+.kpi-card .kpi-num{font-size:1.6rem;font-weight:900;font-family:'Noto Serif SC',serif;margin-bottom:4px}
+.kpi-card .kpi-sub{font-size:0.72rem;color:rgba(255,255,255,0.35)}
+.kpi-card .kpi-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:10px;overflow:hidden}
+.kpi-card .kpi-bar-fill{height:100%;border-radius:2px;transition:width 1.5s ease}
+
+/* === SECTIONS === */
+.section{max-width:1200px;margin:0 auto;padding:90px 24px}
+.section-header{margin-bottom:48px}
+.section-header .gold-line{width:48px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin-bottom:16px}
+.section-header h2{font-size:2.2rem;font-weight:900;color:var(--ink);margin-bottom:4px;letter-spacing:0.02em}
+.section-header .en{font-size:0.8rem;color:#aaa;letter-spacing:0.15em;text-transform:uppercase}
+
+/* === SECTION BG PATTERNS (enhanced) === */
+#overview{background:linear-gradient(160deg,#FAF7F0 0%,#F2EBD8 40%,#EDE4CC 70%,#FAF7F0 100%);position:relative}
+#overview::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 85% 15%,rgba(197,163,85,0.12) 0%,transparent 50%),
+  radial-gradient(ellipse at 10% 80%,rgba(139,34,82,0.06) 0%,transparent 40%);pointer-events:none}
+#scenes{background:linear-gradient(180deg,#FFFFFF 0%,#F8F3E8 30%,#F0E8D4 60%,#FDFBF6 100%)!important}
+#scenes::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 70% 20%,rgba(197,163,85,0.1) 0%,transparent 45%),
+  radial-gradient(ellipse at 20% 70%,rgba(45,125,107,0.06) 0%,transparent 40%);pointer-events:none;z-index:0}
+#profit{background:linear-gradient(135deg,#FAF7F0 0%,#F5EDDA 35%,#EDE2C8 65%,#FAF7F0 100%)}
+#profit::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 80% 30%,rgba(139,34,82,0.1) 0%,transparent 50%),
+  radial-gradient(ellipse at 15% 65%,rgba(197,163,85,0.08) 0%,transparent 45%);pointer-events:none}
+#member{background:linear-gradient(160deg,#FAF7F0 0%,#EFF5F2 40%,#E8F0EC 65%,#FAF7F0 100%)}
+#member::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 75% 25%,rgba(45,125,107,0.1) 0%,transparent 50%),
+  radial-gradient(ellipse at 25% 75%,rgba(197,163,85,0.08) 0%,transparent 40%);pointer-events:none}
+#national{background:linear-gradient(180deg,#FFFFFF 0%,#F5F0E2 30%,#EDE4CC 55%,#F8F5EB 100%)!important}
+#national::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 60% 20%,rgba(197,163,85,0.12) 0%,transparent 55%),
+  radial-gradient(ellipse at 30% 80%,rgba(139,34,82,0.06) 0%,transparent 40%);pointer-events:none;z-index:0}
+#value{background:linear-gradient(135deg,#FAF7F0 0%,#F0E8D4 30%,#EAE0C6 55%,#FAF7F0 100%)}
+#value::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 50% 30%,rgba(197,163,85,0.14) 0%,transparent 55%),
+  radial-gradient(ellipse at 80% 80%,rgba(139,34,82,0.06) 0%,transparent 40%);pointer-events:none}
+
+/* === WINE FLOW PAGE TRANSITION === */
+.wine-transition-overlay{position:fixed;inset:0;z-index:9998;pointer-events:none;overflow:hidden}
+.wine-flow{position:absolute;width:100%;height:100%;opacity:0;will-change:transform,opacity}
+.wine-flow.active{animation:wineFlowIn 1.2s cubic-bezier(0.22,0.61,0.36,1) forwards}
+
+@keyframes wineFlowIn{
+  0%{opacity:0;clip-path:inset(0 0 100% 0)}
+  15%{opacity:1}
+  50%{clip-path:inset(0 0 30% 0)}
+  85%{opacity:0.6}
+  100%{opacity:0;clip-path:inset(0 0 0% 0)}
+}
+
+/* Section reveal animations */
+.section-reveal{opacity:0;transform:translateY(40px)}
+.section-reveal.visible{animation:sectionReveal 0.9s cubic-bezier(0.22,0.61,0.36,1) forwards}
+@keyframes sectionReveal{
+  0%{opacity:0;transform:translateY(40px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+
+/* Wine drip particles in transition */
+.wine-drip{position:absolute;width:6px;border-radius:0 0 50% 50%;background:linear-gradient(180deg,rgba(160,100,40,0.7),rgba(180,120,50,0.3));opacity:0;will-change:transform}
+.wine-drip.active{animation:dripFall var(--dur,1.5s) cubic-bezier(0.4,0,0.6,1) var(--delay,0s) forwards}
+@keyframes dripFall{
+  0%{opacity:0;transform:translateY(-20px) scaleY(0.3)}
+  10%{opacity:0.8;transform:translateY(0) scaleY(1)}
+  70%{opacity:0.5}
+  100%{opacity:0;transform:translateY(calc(100vh + 40px)) scaleY(1.6)}
+}
+
+/* Wine stream SVG animation */
+.wine-stream-path{stroke-dasharray:800;stroke-dashoffset:800;opacity:0}
+.wine-stream-path.active{animation:streamDraw 1.4s ease-out forwards}
+@keyframes streamDraw{
+  0%{stroke-dashoffset:800;opacity:0}
+  10%{opacity:0.7}
+  80%{opacity:0.4}
+  100%{stroke-dashoffset:0;opacity:0}
+}
+
+.card{background:#fff;border-radius:18px;padding:32px;box-shadow:0 2px 24px rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.04);transition:all 0.3s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.07)}
+.card::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(197,163,85,0.2),transparent)}
+.tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:0.72rem;font-weight:600}
+.tag-gold{background:rgba(197,163,85,0.1);color:var(--gold)}
+.tag-wine{background:rgba(139,34,82,0.08);color:var(--wine)}
+.tag-jade{background:rgba(45,125,107,0.08);color:var(--jade)}
+
+/* === CALCULATOR === */
+.calc-wrap{background:linear-gradient(180deg,#E8E2D0 0%,#F0E8D4 40%,#EDE4CC 70%,var(--cream) 100%);padding:90px 0}
+.slider-group{margin-bottom:18px}
+.slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.slider-label span:first-child{font-size:0.82rem;color:#555;font-weight:500}
+.slider-value{font-size:0.85rem;font-weight:700;color:var(--gold);background:rgba(197,163,85,0.08);padding:2px 10px;border-radius:6px;min-width:50px;text-align:center}
+input[type="range"]{-webkit-appearance:none;width:100%;height:5px;background:#E0D8C8;border-radius:3px;outline:none;cursor:pointer;transition:background 0.2s}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:#fff;border:3px solid var(--gold);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:pointer;transition:transform 0.15s}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type="range"]::-moz-range-thumb{width:18px;height:18px;background:#fff;border:3px solid var(--gold);border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:pointer}
+
+.rev-total{background:linear-gradient(135deg,var(--ink) 0%,#2A1F3D 100%);border-radius:16px;padding:24px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.rev-total::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(197,163,85,0.1) 0%,transparent 60%)}
+.rev-total .amount{font-size:2rem;font-weight:900;color:var(--gold);position:relative}
+.rev-total .label{font-size:0.75rem;opacity:0.6;margin-top:4px;position:relative}
+
+.tab-bar{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap}
+.tab-btn{padding:11px 28px;border-radius:12px;border:2px solid transparent;background:#fff;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s;color:#888;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.tab-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(197,163,85,0.04);box-shadow:0 4px 16px rgba(197,163,85,0.12)}
+.tab-btn:hover{border-color:var(--gold-light);color:var(--gold)}
+
+.metric-box{background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 8px rgba(0,0,0,0.03)}
+.metric-box .num{font-size:1.5rem;font-weight:800;font-family:'Noto Serif SC',serif}
+.metric-box .desc{font-size:0.7rem;color:#999;margin-top:3px}
+
+/* === YW Highlights === */
+.yw-highlight{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.yw-hl-item{background:linear-gradient(135deg,rgba(139,34,82,0.03),rgba(139,34,82,0.08));border:1px solid rgba(139,34,82,0.1);border-radius:14px;padding:20px;text-align:center;transition:all 0.3s}
+.yw-hl-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(139,34,82,0.1)}
+.yw-hl-item .icon{font-size:1.8rem;margin-bottom:8px}
+.yw-hl-item h4{font-size:0.9rem;color:var(--wine);margin-bottom:6px}
+.yw-hl-item p{font-size:0.78rem;color:#888;line-height:1.6}
+
+/* === TOC Nav === */
+.toc-nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:6px}
+.toc-dot{width:8px;height:8px;border-radius:50%;background:rgba(197,163,85,0.25);cursor:pointer;transition:all 0.3s;position:relative}
+.toc-dot.active{background:var(--gold);transform:scale(1.4);box-shadow:0 0 8px rgba(197,163,85,0.4)}
+.toc-dot::after{content:attr(data-label);position:absolute;right:18px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:0.7rem;color:#fff;opacity:0;transition:opacity 0.2s;pointer-events:none;background:var(--ink);padding:4px 10px;border-radius:6px}
+.toc-dot:hover::after{opacity:1}
+
+/* === LOGO === */
+.logo-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:2.5rem;position:relative}
+.logo-svg{width:120px;height:120px;filter:drop-shadow(0 0 30px rgba(197,163,85,0.25));animation:floatLogo 6s ease-in-out infinite}
+@keyframes floatLogo{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.03)}}
+.logo-ring{position:absolute;width:160px;height:160px;border-radius:50%;border:1px solid rgba(197,163,85,0.12);top:-20px;animation:ringPulse 4s ease-in-out infinite}
+.logo-ring:nth-child(2){width:200px;height:200px;top:-40px;animation-delay:1s;border-color:rgba(197,163,85,0.06)}
+@keyframes ringPulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+
+/* === Cultural Pattern Decorations === */
+.section-deco{position:absolute;pointer-events:none;z-index:0}
+.section-deco svg{width:100%;height:100%;filter:saturate(1.3)}
+.section-header{position:relative;z-index:1}
+.deco-float{animation:decoFloat 8s ease-in-out infinite}
+.deco-float-alt{animation:decoFloatAlt 10s ease-in-out infinite}
+@keyframes decoFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-12px) rotate(2deg)}75%{transform:translateY(6px) rotate(-1deg)}}
+@keyframes decoFloatAlt{0%,100%{transform:translateY(0) rotate(0deg)}30%{transform:translateY(8px) rotate(-2deg)}70%{transform:translateY(-10px) rotate(1.5deg)}}
+
+/* === Texture Overlay === */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.35;
+  background-image:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay}
+
+/* Section gold ornamental borders */
+.section-header .gold-line{width:48px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin-bottom:16px;position:relative;z-index:1}
+.section-header h2{position:relative;z-index:1}
+
+/* Section title inline deco */
+.section-header h2::after{content:'';display:inline-block;width:28px;height:28px;margin-left:12px;vertical-align:middle;opacity:0.2;background-size:contain;background-repeat:no-repeat;animation:decoFloat 8s ease-in-out infinite}
+
+/* Hero gold particles */
+.hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{position:absolute;width:3px;height:3px;background:var(--gold);border-radius:50%;opacity:0;animation:particleFloat 12s linear infinite}
+@keyframes particleFloat{0%{opacity:0;transform:translateY(100vh)}10%{opacity:0.4}90%{opacity:0.15}100%{opacity:0;transform:translateY(-20px)}}
+
+@media(max-width:900px){
+  .hero{padding:40px 24px;min-height:auto}
+  .hero-left h1{font-size:2.4rem}
+  .hero-stats{grid-template-columns:repeat(2,1fr)!important}
+  .toc-nav{display:none}
+  .section{padding:56px 16px}
+  .yw-highlight{grid-template-columns:1fr}
+  .section-deco{display:none}
+  .logo-svg{width:90px;height:90px}
+  .logo-ring{display:none}
+}
+</style>
+</head>
+<body>
+<!-- TOC -->
+<nav class="toc-nav">
+  <div class="toc-dot active" data-label="首页" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="财务分析" onclick="document.getElementById('finance').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="项目总述" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="三大场景" onclick="document.getElementById('scenes').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="盈利模型" onclick="document.getElementById('profit').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="收入测算" onclick="document.getElementById('revenue').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="会员体系" onclick="document.getElementById('member').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="全国复制" onclick="document.getElementById('national').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="营销渠道" onclick="document.getElementById('marketing').scrollIntoView({behavior:'smooth'})"></div>
+  <div class="toc-dot" data-label="核心价值" onclick="document.getElementById('value').scrollIntoView({behavior:'smooth'})"></div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="hero" style="display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center">
+  <!-- Floating particles -->
+  <div class="hero-particles">
+    <div class="particle" style="left:10%;animation-delay:0s;animation-duration:14s"></div>
+    <div class="particle" style="left:22%;animation-delay:2s;animation-duration:11s"></div>
+    <div class="particle" style="left:38%;animation-delay:4s;animation-duration:13s"></div>
+    <div class="particle" style="left:55%;animation-delay:1s;animation-duration:15s"></div>
+    <div class="particle" style="left:68%;animation-delay:3s;animation-duration:10s"></div>
+    <div class="particle" style="left:82%;animation-delay:5s;animation-duration:12s"></div>
+    <div class="particle" style="left:92%;animation-delay:2.5s;animation-duration:14s"></div>
+    <div class="particle" style="left:5%;animation-delay:6s;animation-duration:11s"></div>
+    <div class="particle" style="left:48%;animation-delay:7s;animation-duration:13s"></div>
+    <div class="particle" style="left:75%;animation-delay:4.5s;animation-duration:16s"></div>
+  </div>
+
+  <div class="hero-left" style="text-align:center;max-width:800px">
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <div class="logo-ring"></div>
+      <div class="logo-ring"></div>
+      <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E8D5A0"/><stop offset="50%" stop-color="#C5A355"/><stop offset="100%" stop-color="#E8D5A0"/></linearGradient></defs>
+        <!-- Outer circle with ornamental border -->
+        <circle cx="100" cy="100" r="94" fill="none" stroke="url(#lg)" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="100" cy="100" r="88" fill="none" stroke="url(#lg)" stroke-width="0.5" opacity="0.3"/>
+        <!-- Pavilion roof (亭) -->
+        <path d="M100 28 L145 62 L55 62 Z" fill="none" stroke="url(#lg)" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M100 22 L150 58 L50 58 Z" fill="none" stroke="url(#lg)" stroke-width="1" opacity="0.4"/>
+        <line x1="100" y1="28" x2="100" y2="22" stroke="url(#lg)" stroke-width="1.5"/>
+        <!-- Eave detail -->
+        <path d="M58 62 Q70 68 85 63 Q100 58 115 63 Q130 68 142 62" fill="none" stroke="url(#lg)" stroke-width="1.2" opacity="0.7"/>
+        <!-- Pillars -->
+        <line x1="75" y1="62" x2="75" y2="95" stroke="url(#lg)" stroke-width="2"/>
+        <line x1="125" y1="62" x2="125" y2="95" stroke="url(#lg)" stroke-width="2"/>
+        <!-- Platform -->
+        <rect x="65" y="93" width="70" height="4" rx="1" fill="url(#lg)" opacity="0.5"/>
+        <!-- Wine vessel (酒壶) centered below pavilion -->
+        <ellipse cx="100" cy="115" rx="12" ry="5" fill="none" stroke="url(#lg)" stroke-width="1.5"/>
+        <path d="M88 115 Q86 130 90 140 Q95 148 100 150 Q105 148 110 140 Q114 130 112 115" fill="none" stroke="url(#lg)" stroke-width="1.5"/>
+        <path d="M93 108 Q95 105 100 103 Q105 105 107 108" fill="none" stroke="url(#lg)" stroke-width="1.2"/>
+        <!-- Water ripple (流觞曲水) -->
+        <path d="M60 160 Q75 155 85 160 Q95 165 105 160 Q115 155 125 160 Q135 165 140 160" fill="none" stroke="url(#lg)" stroke-width="1" opacity="0.5"/>
+        <path d="M55 168 Q70 163 82 168 Q94 173 106 168 Q118 163 130 168 Q142 173 145 168" fill="none" stroke="url(#lg)" stroke-width="0.8" opacity="0.3"/>
+        <!-- Corner ornaments (祥云) -->
+        <path d="M30 35 Q35 30 40 35 Q45 28 50 33" fill="none" stroke="url(#lg)" stroke-width="1" opacity="0.35"/>
+        <path d="M150 35 Q155 28 160 33 Q165 28 170 35" fill="none" stroke="url(#lg)" stroke-width="1" opacity="0.35"/>
+        <path d="M30 170 Q38 165 42 170 Q48 164 52 170" fill="none" stroke="url(#lg)" stroke-width="1" opacity="0.35"/>
+        <path d="M148 170 Q155 164 160 170 Q166 164 170 170" fill="none" stroke="url(#lg)" stroke-width="1" opacity="0.35"/>
+      </svg>
+    </div>
+
+    <div class="label" style="margin-bottom:1.5rem">BUSINESS MODEL PRESENTATION</div>
+    <h1 style="font-size:4.2rem;margin-bottom:0.5rem">会稽山兰亭宴</h1>
+    <div class="sub" style="font-size:1.25rem;margin-bottom:1.2rem">商 业 模 式 汇 报</div>
+    <div class="desc" style="max-width:640px;margin:0 auto 3rem;font-size:0.95rem;line-height:2">中国首个以黄酒为载体、中华文明为内核的沉浸式餐秀综合体<br>从"黄酒生产制造商"到"黄酒文化生活方式服务商"的战略转型</div>
+    <div style="font-size:0.65rem;color:var(--gold-light);letter-spacing:0.3em;opacity:0.5;margin-bottom:20px;text-transform:uppercase">商业模式核心架构</div>
+    <div class="hero-stats" style="grid-template-columns:repeat(4,1fr);max-width:720px;margin:0 auto;gap:14px">
+      <a class="hero-stat" href="#scenes" style="text-decoration:none;padding:20px 14px">
+        <div style="color:var(--gold);font-size:0.95rem;font-weight:700;font-family:'Noto Serif SC',serif;margin-bottom:6px">核心场景</div>
+        <div style="color:var(--gold-light);font-size:0.68rem;opacity:0.6;line-height:1.5">雅宴 · 宴 · 荟<br>三场景全客群覆盖</div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="hero-stat" href="#profit" style="text-decoration:none;padding:20px 14px">
+        <div style="color:var(--gold);font-size:0.95rem;font-weight:700;font-family:'Noto Serif SC',serif;margin-bottom:6px">盈利模型</div>
+        <div style="color:var(--gold-light);font-size:0.68rem;opacity:0.6;line-height:1.5">门票+酒水+文创+加盟<br>四层盈利体系</div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="hero-stat" href="#member" style="text-decoration:none;padding:20px 14px">
+        <div style="color:var(--gold);font-size:0.95rem;font-weight:700;font-family:'Noto Serif SC',serif;margin-bottom:6px">会员体系</div>
+        <div style="color:var(--gold-light);font-size:0.68rem;opacity:0.6;line-height:1.5">阶梯式分级运营<br>终身价值挖掘</div>
+        <div class="arrow">→</div>
+      </a>
+      <a class="hero-stat" href="#national" style="text-decoration:none;padding:20px 14px">
+        <div style="color:var(--gold);font-size:0.95rem;font-weight:700;font-family:'Noto Serif SC',serif;margin-bottom:6px">全国复制</div>
+        <div style="color:var(--gold-light);font-size:0.68rem;opacity:0.6;line-height:1.5">轻重结合模式<br>标准化+本地化</div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINANCIAL ANALYSIS ========== -->
+<section id="finance" style="background:linear-gradient(180deg,#0D0D1A 0%,var(--ink) 40%,#1A1A2E 100%);padding:80px 0;position:relative;overflow:hidden">
+  <!-- Cultural pattern: bronze vessel -->
+  <div class="section-deco deco-float" style="right:30px;top:50px;width:180px;height:220px;opacity:0.2">
+    <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g0" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355" stop-opacity="0.7"/><stop offset="100%" stop-color="#E8D5A0" stop-opacity="0.3"/></linearGradient></defs>
+      <path d="M30 40 L30 85 Q30 95 40 95 L60 95 Q70 95 70 85 L70 40" fill="none" stroke="url(#g0)" stroke-width="2.5"/>
+      <path d="M25 40 L75 40" stroke="url(#g0)" stroke-width="3"/>
+      <path d="M20 35 Q25 26 30 35" fill="none" stroke="url(#g0)" stroke-width="2.5"/>
+      <path d="M70 35 Q75 26 80 35" fill="none" stroke="url(#g0)" stroke-width="2.5"/>
+      <line x1="35" y1="95" x2="28" y2="120" stroke="url(#g0)" stroke-width="2.5"/>
+      <line x1="65" y1="95" x2="72" y2="120" stroke="url(#g0)" stroke-width="2.5"/>
+      <line x1="50" y1="95" x2="50" y2="120" stroke="url(#g0)" stroke-width="2.5"/>
+      <path d="M35 55 L65 55 M35 68 L65 68 M35 80 L65 80" fill="none" stroke="url(#g0)" stroke-width="1.2" opacity="0.5"/>
+      <rect x="40" y="58" width="20" height="8" fill="url(#g0)" opacity="0.12" rx="1"/>
+    </svg>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+
+    <!-- Section Header -->
+    <div style="text-align:center;margin-bottom:48px">
+      <div style="width:48px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin:0 auto 16px"></div>
+      <h2 style="font-size:2.2rem;font-weight:900;color:var(--gold);letter-spacing:0.05em;margin-bottom:4px;font-family:'Noto Serif SC',serif">财务分析总览</h2>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.35);letter-spacing:0.15em;text-transform:uppercase">FINANCIAL ANALYSIS OVERVIEW</div>
+    </div>
+
+    <!-- Revenue Forecast Overview - Dynamic KPIs -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px">
+      <div class="kpi-card" style="animation-delay:0s;grid-column:span 2">
+        <div class="kpi-head"><span class="kpi-title">年度总收入预测</span><span class="kpi-badge" style="background:rgba(197,163,85,0.15);color:var(--gold)">FORECAST</span></div>
+        <div class="kpi-num" style="font-size:2.2rem;background:linear-gradient(135deg,#C5A355,#E8D5A0,#D4B96A);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="hero_revenue">--</div>
+        <div class="kpi-sub">兰亭宴 + 兰亭雅宴 · 基于下方动态测算联动</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:78%;background:linear-gradient(90deg,var(--gold),var(--gold-light))"></div></div>
+      </div>
+      <div class="kpi-card" style="animation-delay:0.5s">
+        <div class="kpi-head"><span class="kpi-title">兰亭宴年收入</span></div>
+        <div class="kpi-num" style="font-size:1.5rem;background:linear-gradient(135deg,#C5A355,#E8D5A0);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="fin_lty_annual">--</div>
+        <div class="kpi-sub">大众餐秀空间 · 300座</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:60%;background:linear-gradient(90deg,var(--gold),var(--gold-light))"></div></div>
+      </div>
+      <div class="kpi-card" style="animation-delay:1s">
+        <div class="kpi-head"><span class="kpi-title">兰亭雅宴年收入</span></div>
+        <div class="kpi-num" style="font-size:1.5rem;background:linear-gradient(135deg,#8B2252,#C06080,#D47898);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="fin_yw_annual">--</div>
+        <div class="kpi-sub">高端包厢 · 10间</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:50%;background:linear-gradient(90deg,var(--wine),var(--wine-light))"></div></div>
+      </div>
+      <div class="kpi-card" style="animation-delay:1.5s">
+        <div class="kpi-head"><span class="kpi-title">投资回报 ROI</span><span class="kpi-badge" style="background:rgba(197,163,85,0.15);color:var(--gold)">ROI</span></div>
+        <div class="kpi-num" style="font-size:1.5rem;background:linear-gradient(135deg,#C5A355,#E8D5A0,#D4B96A);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="hero_roi">--</div>
+        <div class="kpi-sub">年化投资回报率</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:72%;background:linear-gradient(90deg,#C5A355,#E8D5A0)"></div></div>
+      </div>
+    </div>
+
+    <!-- Revenue Structure Quick View -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+      <div class="kpi-card" style="padding:20px;animation:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:0.82rem;color:rgba(255,255,255,0.5)">法定假日</span>
+          <span style="font-size:0.72rem;padding:2px 8px;border-radius:6px;background:rgba(197,163,85,0.15);color:var(--gold)" id="fin_occ1_display">95%</span>
+        </div>
+        <div style="font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,#C5A355,#E8D5A0);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="fin_holiday_rev">--</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px">上座率最高时段</div>
+      </div>
+      <div class="kpi-card" style="padding:20px;animation:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:0.82rem;color:rgba(255,255,255,0.5)">周末</span>
+          <span style="font-size:0.72rem;padding:2px 8px;border-radius:6px;background:rgba(139,34,82,0.12);color:var(--wine)" id="fin_occ2_display">75%</span>
+        </div>
+        <div style="font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,#8B2252,#C06080);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="fin_weekend_rev">--</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px">稳定客流时段</div>
+      </div>
+      <div class="kpi-card" style="padding:20px;animation:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:0.82rem;color:rgba(255,255,255,0.5)">工作日</span>
+          <span style="font-size:0.72rem;padding:2px 8px;border-radius:6px;background:rgba(45,125,107,0.12);color:var(--jade)" id="fin_occ3_display">50%</span>
+        </div>
+        <div style="font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,#2D7D6B,#3A9D88);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="fin_workday_rev">--</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px">增长潜力最大时段</div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ========== 1. OVERVIEW ========== -->
+<section class="section" id="overview" style="position:relative;overflow:hidden">
+  <!-- Cultural pattern: wine vessel 酒壶 -->
+  <div class="section-deco deco-float" style="right:20px;top:40px;width:220px;height:260px;opacity:0.25">
+    <svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355" stop-opacity="0.7"/><stop offset="100%" stop-color="#E8D5A0" stop-opacity="0.3"/></linearGradient></defs>
+      <ellipse cx="60" cy="35" rx="22" ry="10" fill="none" stroke="url(#g1)" stroke-width="2"/>
+      <path d="M38 35 Q34 60 38 90 Q45 120 60 130 Q75 120 82 90 Q86 60 82 35" fill="none" stroke="url(#g1)" stroke-width="2"/>
+      <path d="M48 22 Q52 15 60 12 Q68 15 72 22" fill="none" stroke="url(#g1)" stroke-width="2"/>
+      <line x1="60" y1="12" x2="60" y2="5" stroke="url(#g1)" stroke-width="1.5"/>
+      <ellipse cx="60" cy="60" rx="14" ry="3" fill="none" stroke="url(#g1)" stroke-width="0.8" opacity="0.5"/>
+      <ellipse cx="60" cy="80" rx="16" ry="3" fill="none" stroke="url(#g1)" stroke-width="0.8" opacity="0.4"/>
+      <path d="M25 140 Q40 135 55 140 Q70 145 85 140 Q100 135 105 140" fill="none" stroke="url(#g1)" stroke-width="1.5" opacity="0.6"/>
+      <path d="M30 148 Q45 143 60 148 Q75 153 90 148" fill="none" stroke="url(#g1)" stroke-width="1" opacity="0.4"/>
+    </svg>
+  </div>
+  <div class="section-header"><div class="gold-line"></div><h2>一、项目总述</h2><div class="en">PROJECT OVERVIEW</div></div>
+  <div class="card" style="margin-bottom:32px;border-left:4px solid var(--gold)">
+    <h3 style="font-size:1.15rem;margin-bottom:14px;color:var(--ink)">战略定位</h3>
+    <p style="line-height:2;color:#555;font-size:0.92rem">
+      会稽山兰亭宴是中国首个以黄酒为载体、中华文明为内核的<strong style="color:var(--gold)">沉浸式餐秀综合体</strong>，承担绍兴城市文化会客厅的核心功能，兼具政企接待、文化交流、文旅展示、城市形象传播的多元价值。项目融合<strong style="color:var(--wine)">沉浸式演艺、主题餐饮、文化体验、产品零售</strong>四大功能，构建 <span style="background:linear-gradient(to right,rgba(197,163,85,0.12),rgba(197,163,85,0.04));padding:2px 8px;border-radius:4px;font-weight:600">"体验引流 → 内容留客 → 消费变现 → 品牌增值"</span> 的完整商业闭环。
+    </p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px">
+    <div class="card" style="border-top:3px solid var(--wine)">
+      <span class="tag tag-wine">痛点一</span>
+      <h4 style="margin:12px 0 8px;font-size:1rem">破解黄酒行业发展痛点</h4>
+      <p style="font-size:0.85rem;color:#666;line-height:1.8">黄酒长期面临价值低估、场景固化（厨房调味/家庭小酌）、高端化年轻化进程缓慢等困境。通过三大场景实现<strong>"喝黄酒→懂黄酒→爱黄酒"</strong>的深度消费转化。</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--gold)">
+      <span class="tag tag-gold">痛点二</span>
+      <h4 style="margin:12px 0 8px;font-size:1rem">破解高端餐饮经营痛点</h4>
+      <p style="font-size:0.85rem;color:#666;line-height:1.8">传统高端餐饮同质化内卷，缺乏文化内核；文旅餐饮"重打卡、轻复购"。通过<strong>"戏宴共生、酒膳合一"</strong>，实现三轮驱动客流模型。</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--jade)">
+      <span class="tag tag-jade">痛点三</span>
+      <h4 style="margin:12px 0 8px;font-size:1rem">破解黄酒年轻化落地难</h4>
+      <p style="font-size:0.85rem;color:#666;line-height:1.8">传统品牌年轻化多停留在包装层面，缺乏线下体验场景。「兰亭荟」以场景化运营为核心，从根源解决<strong>"年轻人不喝"</strong>的核心问题。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2. SCENES ========== -->
+<section id="scenes" style="background:#fff;padding:90px 0;position:relative;overflow:hidden">
+  <!-- Cultural pattern: orchid 兰花 -->
+  <div class="section-deco deco-float-alt" style="right:10px;top:20px;width:240px;height:260px;opacity:0.22">
+    <svg viewBox="0 0 160 180" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355" stop-opacity="0.8"/><stop offset="100%" stop-color="#E8D5A0" stop-opacity="0.3"/></linearGradient></defs>
+      <path d="M80 170 Q78 120 60 80 Q45 50 30 35" fill="none" stroke="url(#g2)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M80 170 Q85 110 100 70 Q115 40 135 25" fill="none" stroke="url(#g2)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M80 170 Q70 130 50 110 Q30 95 15 90" fill="none" stroke="url(#g2)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+      <path d="M80 170 Q82 140 95 125 Q110 110 130 105" fill="none" stroke="url(#g2)" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+      <path d="M30 35 Q25 28 28 20 Q34 26 38 22 Q34 30 30 35" fill="url(#g2)" opacity="0.6"/>
+      <path d="M135 25 Q138 16 144 20 Q142 28 147 32 Q140 28 135 25" fill="url(#g2)" opacity="0.6"/>
+      <path d="M15 90 Q8 84 12 76 Q18 82 22 78 Q20 86 15 90" fill="url(#g2)" opacity="0.5"/>
+      <path d="M130 105 Q136 100 140 104 Q136 110 140 114 Q134 110 130 105" fill="url(#g2)" opacity="0.4"/>
+    </svg>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+    <div class="section-header"><div class="gold-line"></div><h2>二、三场景全客群运营体系</h2><div class="en">THREE SCENARIOS FULL-SPECTRUM OPERATION</div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px">
+      <div class="card" style="border-top:4px solid var(--wine);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(139,34,82,0.06),transparent);border-radius:0 0 0 80px"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,rgba(139,34,82,0.08),rgba(139,34,82,0.15));display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--wine)">雅</div>
+          <div><h3 style="font-size:1.1rem;color:var(--wine)">兰亭雅宴</h3><span style="font-size:0.72rem;color:#999">高端商务宴请与VIP接待</span></div>
+        </div>
+        <p style="font-size:0.83rem;color:#666;line-height:1.8;margin-bottom:14px">设置2-20人独立包厢，共10间。以「观、耕、天、地、敬、文、器、律、酿」九幕沉浸式演艺，搭配专属年份黄酒与米其林级定制餐。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+          <span class="tag tag-wine">基础 698元/位</span><span class="tag tag-wine">中档 898元/位</span><span class="tag tag-wine">高端 1488元/位</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--wine);font-weight:600">+ 10% 服务费 | 利润核心 | 城市会客厅高端接待</div>
+      </div>
+      <div class="card" style="border-top:4px solid var(--gold);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(197,163,85,0.06),transparent);border-radius:0 0 0 80px"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,rgba(197,163,85,0.08),rgba(197,163,85,0.15));display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--gold)">宴</div>
+          <div><h3 style="font-size:1.1rem;color:var(--gold)">兰亭宴</h3><span style="font-size:0.72rem;color:#999">黄酒文化普及与大众品质消费</span></div>
+        </div>
+        <p style="font-size:0.83rem;color:#666;line-height:1.8;margin-bottom:14px">大厅开放式餐秀，VIP区/核心观演区/高性价比区，总座位300个。「源、旨、烈、雅、舞、缠、狂、荣、承」九幕戏剧化演艺。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+          <span class="tag tag-gold">惠民 298元/位</span><span class="tag tag-gold">标准 398元/位</span><span class="tag tag-gold">精品 498元/位</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--gold);font-weight:600">流量核心 | 城市文旅会客厅 | 文化普及</div>
+        <div style="margin-top:14px;padding:12px 16px;background:linear-gradient(135deg,rgba(197,163,85,0.06),rgba(197,163,85,0.12));border:1px dashed rgba(197,163,85,0.3);border-radius:10px">
+          <div style="font-size:0.72rem;color:var(--gold);font-weight:700;margin-bottom:4px;letter-spacing:0.05em">💡 运营建议</div>
+          <p style="font-size:0.78rem;color:#666;line-height:1.7;margin:0">建议增设<strong style="color:var(--gold)">「门票+酒」文化伴手礼套餐</strong>，随票附赠精选黄酒伴手礼，让游客将黄酒文化带回家。实现<strong>"现场体验 → 离场品饮 → 线上复购"</strong>的长效消费联动，持续激活品牌触达与渠道转化。</p>
+        </div>
+      </div>
+      <div class="card" style="border-top:4px solid var(--jade);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(45,125,107,0.06),transparent);border-radius:0 0 0 80px"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,rgba(45,125,107,0.08),rgba(45,125,107,0.15));display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--jade)">荟</div>
+          <div><h3 style="font-size:1.1rem;color:var(--jade)">兰亭荟</h3><span style="font-size:0.72rem;color:#999">黄酒文化年轻化日常体验</span></div>
+        </div>
+        <p style="font-size:0.83rem;color:#666;line-height:1.8;margin-bottom:14px">餐酒吧+文创融合模式，主打黄酒衍生饮品、特色甜品、黄酒雪糕。兼具日间休闲、夜间微醺、文化体验三大功能，全时段运营。</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+          <span class="tag tag-jade">人均 25-60元</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--jade);font-weight:600">客流补充 | 年轻化传播阵地 | 文创转化</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:28px"><div id="sceneChart" style="width:100%;height:380px"></div></div>
+  </div>
+</section>
+
+<!-- ========== 3. PROFIT MODEL ========== -->
+<section class="section" id="profit" style="position:relative;overflow:hidden">
+  <!-- Cultural pattern: ancient coin 古钱 -->
+  <div class="section-deco deco-float" style="right:15px;top:20px;width:180px;height:180px;opacity:0.22">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8B2252" stop-opacity="0.6"/><stop offset="100%" stop-color="#C06080" stop-opacity="0.25"/></linearGradient></defs>
+      <circle cx="60" cy="60" r="55" fill="none" stroke="url(#g3)" stroke-width="3"/>
+      <circle cx="60" cy="60" r="48" fill="none" stroke="url(#g3)" stroke-width="1" opacity="0.5"/>
+      <rect x="48" y="48" width="24" height="24" fill="none" stroke="url(#g3)" stroke-width="2.5"/>
+      <path d="M18 18 Q28 24 23 34" fill="none" stroke="url(#g3)" stroke-width="1.5" opacity="0.5"/>
+      <path d="M102 18 Q92 24 97 34" fill="none" stroke="url(#g3)" stroke-width="1.5" opacity="0.5"/>
+      <path d="M18 102 Q28 96 23 86" fill="none" stroke="url(#g3)" stroke-width="1.5" opacity="0.5"/>
+      <path d="M102 102 Q92 96 97 86" fill="none" stroke="url(#g3)" stroke-width="1.5" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="section-header"><div class="gold-line"></div><h2>三、全链路盈利模型</h2><div class="en">FULL-CHAIN PROFIT MODEL</div></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px">
+    <div class="card" style="text-align:center;border-bottom:3px solid var(--gold)">
+      <div style="font-size:2.4rem;font-weight:900;color:var(--gold);font-family:'Noto Serif SC',serif">60%</div>
+      <h4 style="font-size:0.9rem;margin:8px 0 6px">门票套餐与服务费</h4>
+      <p style="font-size:0.78rem;color:#888;line-height:1.5">基础盈利板块<br>文化价值锚定定价</p>
+    </div>
+    <div class="card" style="text-align:center;border-bottom:3px solid var(--wine)">
+      <div style="font-size:2.4rem;font-weight:900;color:var(--wine);font-family:'Noto Serif SC',serif">30%</div>
+      <h4 style="font-size:0.9rem;margin:8px 0 6px">酒水零售与文创</h4>
+      <p style="font-size:0.78rem;color:#888;line-height:1.5">核心利润增长板块<br>"先体验后消费"</p>
+    </div>
+    <div class="card" style="text-align:center;border-bottom:3px solid var(--jade)">
+      <div style="font-size:2.4rem;font-weight:900;color:var(--jade);font-family:'Noto Serif SC',serif">10%</div>
+      <h4 style="font-size:0.9rem;margin:8px 0 6px">品牌加盟与大客户定制</h4>
+      <p style="font-size:0.78rem;color:#888;line-height:1.5">长效盈利板块<br>加盟+管理+分成<br><strong style="color:var(--jade)">大客户订酒会 · 黄酒批发增量 10%</strong></p>
+    </div>
+    <div class="card" style="text-align:center;border-bottom:3px solid var(--gold-dark)">
+      <div style="font-size:2.4rem;font-weight:900;color:var(--gold-dark);font-family:'Noto Serif SC',serif">增值</div>
+      <h4 style="font-size:0.9rem;margin:8px 0 6px">品牌赋能与消费增量</h4>
+      <p style="font-size:0.78rem;color:#888;line-height:1.5">品牌赋能增加经销商销量<br>带动黄酒平均消费提升</p>
+    </div>
+  </div>
+  <div class="card"><div id="profitChart" style="width:100%;height:380px"></div></div>
+</section>
+
+<!-- ========== 4. REVENUE CALCULATOR ========== -->
+<div class="calc-wrap" id="revenue" style="position:relative;overflow:hidden">
+  <!-- Cultural pattern: abacus 算盘 -->
+  <div class="section-deco deco-float-alt" style="right:10px;top:50px;width:180px;height:220px;opacity:0.18">
+    <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355" stop-opacity="0.7"/><stop offset="100%" stop-color="#E8D5A0" stop-opacity="0.3"/></linearGradient></defs>
+      <rect x="10" y="10" width="80" height="120" rx="4" fill="none" stroke="url(#g4)" stroke-width="2.5"/>
+      <line x1="10" y1="45" x2="90" y2="45" stroke="url(#g4)" stroke-width="2"/>
+      <line x1="30" y1="10" x2="30" y2="130" stroke="url(#g4)" stroke-width="1" opacity="0.6"/>
+      <line x1="50" y1="10" x2="50" y2="130" stroke="url(#g4)" stroke-width="1" opacity="0.6"/>
+      <line x1="70" y1="10" x2="70" y2="130" stroke="url(#g4)" stroke-width="1" opacity="0.6"/>
+      <circle cx="30" cy="28" r="6" fill="url(#g4)" opacity="0.5"/>
+      <circle cx="50" cy="32" r="6" fill="url(#g4)" opacity="0.5"/>
+      <circle cx="70" cy="25" r="6" fill="url(#g4)" opacity="0.5"/>
+      <circle cx="30" cy="65" r="6" fill="url(#g4)" opacity="0.4"/>
+      <circle cx="30" cy="82" r="6" fill="url(#g4)" opacity="0.4"/>
+      <circle cx="50" cy="70" r="6" fill="url(#g4)" opacity="0.4"/>
+      <circle cx="50" cy="87" r="6" fill="url(#g4)" opacity="0.4"/>
+      <circle cx="50" cy="104" r="6" fill="url(#g4)" opacity="0.4"/>
+      <circle cx="70" cy="62" r="6" fill="url(#g4)" opacity="0.4"/>
+      <circle cx="70" cy="79" r="6" fill="url(#g4)" opacity="0.4"/>
+    </svg>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+    <div class="section-header"><div class="gold-line"></div><h2>四、收入动态测算</h2><div class="en">DYNAMIC REVENUE CALCULATION · INTERACTIVE</div></div>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('lty',this)">兰亭宴 · 大众空间</button>
+      <button class="tab-btn" onclick="switchTab('ltyw',this)">兰亭雅宴 · 高端包厢</button>
+      <button class="tab-btn" onclick="switchTab('occ',this)">上座率与综合测算</button>
+    </div>
+
+    <!-- TAB: 兰亭宴 -->
+    <div id="tab-lty" class="tab-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="card">
+          <h3 style="font-size:1.05rem;margin-bottom:18px;color:var(--gold)">座位数与价格设置</h3>
+          <div class="slider-group"><div class="slider-label"><span>惠民档座位数</span><span class="slider-value" id="v_lty_s1">100</span></div><input type="range" min="0" max="300" value="100" id="lty_s1" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>惠民档价格 (元/位)</span><span class="slider-value" id="v_lty_p1">298</span></div><input type="range" min="100" max="800" step="10" value="298" id="lty_p1" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>标准档座位数</span><span class="slider-value" id="v_lty_s2">100</span></div><input type="range" min="0" max="300" value="100" id="lty_s2" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>标准档价格 (元/位)</span><span class="slider-value" id="v_lty_p2">398</span></div><input type="range" min="100" max="1000" step="10" value="398" id="lty_p2" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>精品档座位数</span><span class="slider-value" id="v_lty_s3">100</span></div><input type="range" min="0" max="300" value="100" id="lty_s3" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>精品档价格 (元/位)</span><span class="slider-value" id="v_lty_p3">498</span></div><input type="range" min="100" max="1200" step="10" value="498" id="lty_p3" oninput="calc()"></div>
+          <div style="margin-top:14px;padding:12px 16px;background:rgba(197,163,85,0.05);border-radius:10px;font-size:0.85rem;color:#666;display:flex;justify-content:space-between">
+            <span>总座位数: <strong id="lty_total_seats" style="color:var(--gold)">300</strong></span>
+            <span>加权均价: <strong id="lty_avg_price" style="color:var(--gold)">¥398</strong></span>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:16px"><div id="ltyChart" style="width:100%;height:260px"></div></div>
+          <div class="rev-total"><div class="label">单场满座总收入</div><div class="amount" id="lty_revenue">--</div></div>
+          <div class="rev-total" style="margin-top:10px;background:linear-gradient(135deg,#1A3A2E,#2A5A48)"><div class="label">预估全年收入 (基于当前上座率)</div><div class="amount" id="lty_annual_display">--</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: 兰亭雅宴 -->
+    <div id="tab-ltyw" class="tab-content" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="card">
+          <h3 style="font-size:1.05rem;margin-bottom:18px;color:var(--wine)">包厢数量与价格设置</h3>
+          <div class="slider-group"><div class="slider-label"><span>基础档包厢数</span><span class="slider-value" id="v_yw_n1">4</span></div><input type="range" min="0" max="10" value="4" id="yw_n1" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>基础档价格 (元/位)</span><span class="slider-value" id="v_yw_p1">698</span></div><input type="range" min="300" max="1500" step="10" value="698" id="yw_p1" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>基础档平均人数/厢</span><span class="slider-value" id="v_yw_c1">6</span></div><input type="range" min="2" max="20" value="6" id="yw_c1" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>中档包厢数</span><span class="slider-value" id="v_yw_n2">3</span></div><input type="range" min="0" max="10" value="3" id="yw_n2" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>中档价格 (元/位)</span><span class="slider-value" id="v_yw_p2">898</span></div><input type="range" min="400" max="2000" step="10" value="898" id="yw_p2" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>中档平均人数/厢</span><span class="slider-value" id="v_yw_c2">8</span></div><input type="range" min="2" max="20" value="8" id="yw_c2" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>高端档包厢数</span><span class="slider-value" id="v_yw_n3">3</span></div><input type="range" min="0" max="10" value="3" id="yw_n3" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>高端档价格 (元/位)</span><span class="slider-value" id="v_yw_p3">1488</span></div><input type="range" min="500" max="3000" step="10" value="1488" id="yw_p3" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>高端档平均人数/厢</span><span class="slider-value" id="v_yw_c3">10</span></div><input type="range" min="2" max="20" value="10" id="yw_c3" oninput="calc()"></div>
+          <div style="margin-top:14px;padding:12px 16px;background:rgba(139,34,82,0.04);border-radius:10px;font-size:0.85rem;color:#666">
+            总包厢: <strong id="yw_total_rooms" style="color:var(--wine)">10</strong> 个 | 含10%服务费 | 总客容: <strong id="yw_total_pax" style="color:var(--wine)">--</strong> 人
+          </div>
+        </div>
+        <div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <div class="metric-box"><div class="num" style="color:var(--wine)" id="yw_avg_spend">--</div><div class="desc">加权平均客单价</div></div>
+            <div class="metric-box"><div class="num" style="color:var(--wine)" id="yw_per_room">--</div><div class="desc">平均每厢收入</div></div>
+          </div>
+          <div class="card" style="margin-bottom:14px"><div id="ywChart" style="width:100%;height:280px"></div></div>
+          <div class="rev-total" style="background:linear-gradient(135deg,#3A1525,#5A2040)"><div class="label">单场满座总收入（含服务费）</div><div class="amount" id="yw_revenue">--</div></div>
+          <div class="rev-total" style="margin-top:10px;background:linear-gradient(135deg,#2A1040,#4A1860)"><div class="label">预估全年收入 (基于当前上座率)</div><div class="amount" id="yw_annual_display">--</div></div>
+        </div>
+      </div>
+      <!-- YW Service Highlights -->
+      <div style="margin-top:28px">
+        <h3 style="font-size:1.1rem;color:var(--wine);margin-bottom:16px">兰亭雅宴 · 对标高端服务亮点</h3>
+        <div class="yw-highlight">
+          <div class="yw-hl-item"><div class="icon">🎭</div><h4>九幕沉浸式演艺</h4><p>"观·耕·天·地·敬·文·器·律·酿"以"时"为魂，演绎黄酒与时间的深层关系</p></div>
+          <div class="yw-hl-item"><div class="icon">🍶</div><h4>专属年份黄酒</h4><p>非遗手工酿造，搭配首席侍酒师一对一引导，品得到的时间</p></div>
+          <div class="yw-hl-item"><div class="icon">🍽</div><h4>米其林级定制餐</h4><p>"音乐调神·酒行气血·餐养脾胃"完整体验闭环，酒膳合一</p></div>
+          <div class="yw-hl-item"><div class="icon">🔒</div><h4>极致私密性</h4><p>2-20人独立包厢，企业定制宴、品牌联名、场地租赁等专属服务</p></div>
+          <div class="yw-hl-item"><div class="icon">🏛</div><h4>城市会客厅功能</h4><p>承接政企接待、外事接待、文化交流，彰显绍兴城市文化底蕴</p></div>
+          <div class="yw-hl-item"><div class="icon">📸</div><h4>专业摄影摄像</h4><p>钻石会员享全程摄影服务，高端社交场景营造，品牌传播载体</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Occupancy -->
+    <div id="tab-occ" class="tab-content" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="card">
+          <h3 style="font-size:1.05rem;margin-bottom:18px;color:var(--ink)">上座率与年度天数设置</h3>
+          <div style="padding:10px 14px;background:rgba(139,34,82,0.03);border-radius:10px;margin-bottom:14px;font-size:0.78rem;color:#999">年度参考: 法定假日 ~30天 | 周末 ~96天 | 工作日 ~239天</div>
+          <div class="slider-group"><div class="slider-label"><span>法定假日上座率</span><span class="slider-value" id="v_occ1">95%</span></div><input type="range" min="0" max="100" value="95" id="occ1" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>法定假日天数/年</span><span class="slider-value" id="v_days1">30</span></div><input type="range" min="0" max="60" value="30" id="days1" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>周末上座率</span><span class="slider-value" id="v_occ2">75%</span></div><input type="range" min="0" max="100" value="75" id="occ2" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>周末天数/年</span><span class="slider-value" id="v_days2">96</span></div><input type="range" min="0" max="120" value="96" id="days2" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>工作日上座率</span><span class="slider-value" id="v_occ3">50%</span></div><input type="range" min="0" max="100" value="50" id="occ3" oninput="calc()"></div>
+          <div class="slider-group"><div class="slider-label"><span>工作日天数/年</span><span class="slider-value" id="v_days3">239</span></div><input type="range" min="0" max="300" value="239" id="days3" oninput="calc()"></div>
+          <div style="border-top:1px dashed #e8e0d0;margin:10px 0"></div>
+          <div class="slider-group"><div class="slider-label"><span>每日场次</span><span class="slider-value" id="v_shows">1</span></div><input type="range" min="1" max="3" value="1" id="shows" oninput="calc()"></div>
+        </div>
+        <div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <div class="metric-box"><div class="num" style="color:var(--gold)" id="m_lty_year">-</div><div class="desc">兰亭宴年收入(万)</div></div>
+            <div class="metric-box"><div class="num" style="color:var(--wine)" id="m_yw_year">-</div><div class="desc">兰亭雅宴年收入(万)</div></div>
+            <div class="metric-box"><div class="num" style="color:var(--ink)" id="m_total_year">-</div><div class="desc">合计年收入(万)</div></div>
+            <div class="metric-box"><div class="num" style="color:var(--jade)" id="m_avg_occ">-</div><div class="desc">加权平均上座率</div></div>
+          </div>
+          <div class="card" style="margin-bottom:14px"><div id="occChart" style="width:100%;height:300px"></div></div>
+          <div class="rev-total" style="background:linear-gradient(135deg,#0D3B2E,#1A5C48)"><div class="label">兰亭宴 + 兰亭雅宴 · 年度总收入预估</div><div class="amount" id="total_annual">--</div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:24px"><div id="annualChart" style="width:100%;height:380px"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 5. MEMBER ========== -->
+<section class="section" id="member" style="position:relative;overflow:hidden">
+  <!-- Cultural pattern: jade bi disc 玉璧 -->
+  <div class="section-deco deco-float" style="right:15px;top:25px;width:200px;height:200px;opacity:0.22">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2D7D6B" stop-opacity="0.6"/><stop offset="100%" stop-color="#3A9D88" stop-opacity="0.25"/></linearGradient></defs>
+      <circle cx="60" cy="60" r="52" fill="none" stroke="url(#g5)" stroke-width="8" opacity="0.5"/>
+      <circle cx="60" cy="60" r="20" fill="none" stroke="url(#g5)" stroke-width="3" opacity="0.6"/>
+      <circle cx="60" cy="60" r="38" fill="none" stroke="url(#g5)" stroke-width="1" stroke-dasharray="4 6" opacity="0.4"/>
+      <path d="M60 5 L63 14 L57 14 Z" fill="url(#g5)" opacity="0.5"/>
+      <path d="M60 115 L63 106 L57 106 Z" fill="url(#g5)" opacity="0.5"/>
+      <path d="M5 60 L14 57 L14 63 Z" fill="url(#g5)" opacity="0.5"/>
+      <path d="M115 60 L106 57 L106 63 Z" fill="url(#g5)" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="section-header"><div class="gold-line"></div><h2>五、会员运营体系</h2><div class="en">MEMBERSHIP OPERATION SYSTEM</div></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:32px">
+    <div class="card" style="text-align:center;border-top:3px solid #aaa;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(160,160,160,0.06),transparent)"></div>
+      <div style="font-size:0.7rem;color:#aaa;margin-bottom:2px;letter-spacing:0.1em">NORMAL</div>
+      <h4 style="font-size:1.05rem;margin-bottom:6px">普通会员</h4>
+      <div style="font-size:0.82rem;color:#888;margin-bottom:10px">注册即成为</div>
+      <div style="font-size:0.78rem;color:#666;line-height:1.9;text-align:left">&bull; 消费1:1积分累计<br>&bull; 免费加入文化交流群<br>&bull; 推荐新客累计等额积分<br>&bull; 积分兑换酒水/文创/体验券</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid #8A8A9A;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(138,138,154,0.06),transparent)"></div>
+      <div style="font-size:0.7rem;color:#8A8A9A;margin-bottom:2px;letter-spacing:0.1em">SILVER</div>
+      <h4 style="font-size:1.05rem;margin-bottom:6px">银卡会员</h4>
+      <div style="font-size:0.82rem;color:#888;margin-bottom:10px">累计消费 ¥5,000</div>
+      <div style="font-size:0.78rem;color:#666;line-height:1.9;text-align:left">&bull; 雅宴9.8折 / 兰亭宴9.5折<br>&bull; 大厅免定金/包厢减50%<br>&bull; 积分1.1倍 / 品鉴卡升级<br>&bull; 黄酒&文创9.5折</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--gold);position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(197,163,85,0.06),transparent)"></div>
+      <div style="font-size:0.7rem;color:var(--gold);margin-bottom:2px;letter-spacing:0.1em">GOLD</div>
+      <h4 style="font-size:1.05rem;margin-bottom:6px">金卡会员</h4>
+      <div style="font-size:0.82rem;color:#888;margin-bottom:10px">累计消费 ¥20,000</div>
+      <div style="font-size:0.78rem;color:#666;line-height:1.9;text-align:left">&bull; 雅宴9.5折 / 宴&荟9折<br>&bull; 所有场景免定金<br>&bull; 积分1.3倍 / 专属客服<br>&bull; 赠5年陈酿 / 酿造体验</div>
+    </div>
+    <div class="card" style="text-align:center;border-top:3px solid var(--wine);position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(139,34,82,0.06),transparent)"></div>
+      <div style="font-size:0.7rem;color:var(--wine);margin-bottom:2px;letter-spacing:0.1em">DIAMOND</div>
+      <h4 style="font-size:1.05rem;margin-bottom:6px">钻石会员</h4>
+      <div style="font-size:0.82rem;color:#888;margin-bottom:10px">累计消费 ¥80,000</div>
+      <div style="font-size:0.78rem;color:#666;line-height:1.9;text-align:left">&bull; 所有场景8.8折<br>&bull; 免定金 / 12h改期<br>&bull; 首席侍酒师服务<br>&bull; 绝版年份酒优先购</div>
+    </div>
+  </div>
+  <div class="card"><div id="memberChart" style="width:100%;height:340px"></div></div>
+</section>
+
+<!-- ========== 6. NATIONAL ========== -->
+<section id="national" style="background:#fff;padding:90px 0;position:relative;overflow:hidden">
+  <!-- Cultural pattern: mountain & river 山水 -->
+  <div class="section-deco deco-float-alt" style="right:5px;top:30px;width:280px;height:180px;opacity:0.18">
+    <svg viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355" stop-opacity="0.7"/><stop offset="100%" stop-color="#E8D5A0" stop-opacity="0.25"/></linearGradient></defs>
+      <path d="M10 100 Q30 55 50 75 Q65 40 80 65 Q100 25 120 60 Q135 35 150 50 Q165 30 175 45" fill="none" stroke="url(#g6)" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M5 110 Q40 95 70 100 Q100 105 130 98 Q160 92 180 100" fill="none" stroke="url(#g6)" stroke-width="2" opacity="0.6"/>
+      <path d="M20 108 Q45 102 65 106 Q85 110 110 105 Q140 100 160 106" fill="none" stroke="url(#g6)" stroke-width="1.2" opacity="0.4"/>
+      <circle cx="155" cy="25" r="12" fill="none" stroke="url(#g6)" stroke-width="1.5" opacity="0.4"/>
+      <path d="M140 55 Q145 46 150 55" fill="none" stroke="url(#g6)" stroke-width="1.2" opacity="0.5"/>
+      <path d="M80 65 Q83 58 86 65" fill="none" stroke="url(#g6)" stroke-width="1" opacity="0.4"/>
+      <path d="M30 90 Q35 85 38 90 Q42 85 45 90" fill="none" stroke="url(#g6)" stroke-width="0.8" opacity="0.35"/>
+    </svg>
+  </div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px">
+    <div class="section-header"><div class="gold-line"></div><h2>六、全国复制商业模式</h2><div class="en">NATIONAL REPLICATION STRATEGY</div></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px">
+      <div class="card" style="border-left:3px solid var(--gold)"><h4 style="color:var(--gold);font-size:0.9rem;margin-bottom:6px">渠道复用</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">绑定经销商网络 + 浙商会圈层</p></div>
+      <div class="card" style="border-left:3px solid var(--wine)"><h4 style="color:var(--wine);font-size:0.9rem;margin-bottom:6px">标准+本地化</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">"全国统一品牌，一城一个特色"</p></div>
+      <div class="card" style="border-left:3px solid var(--jade)"><h4 style="color:var(--jade);font-size:0.9rem;margin-bottom:6px">盈利闭环</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">四大盈利板块完整复制</p></div>
+      <div class="card" style="border-left:3px solid var(--ink)"><h4 style="color:var(--ink);font-size:0.9rem;margin-bottom:6px">双向赋能</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">门店=品牌形象店+体验+销售中心</p></div>
+    </div>
+    <div class="card" style="margin-bottom:24px">
+      <h3 style="font-size:1.1rem;margin-bottom:24px">拓店发展路径</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0">
+        <div style="padding:24px;border-left:4px solid var(--gold);background:linear-gradient(90deg,rgba(197,163,85,0.03),transparent)">
+          <div style="font-size:0.7rem;color:var(--gold);font-weight:700;letter-spacing:0.1em;margin-bottom:6px">PHASE 1</div>
+          <h4 style="font-size:1rem;margin-bottom:8px">江浙核心区深耕</h4>
+          <p style="font-size:0.8rem;color:#888;line-height:1.7">杭州、上海、宁波、南京、苏州、无锡<br>会稽山主导投资+核心经销商联合</p>
+        </div>
+        <div style="padding:24px;border-left:4px solid var(--wine);background:linear-gradient(90deg,rgba(139,34,82,0.03),transparent)">
+          <div style="font-size:0.7rem;color:var(--wine);font-weight:700;letter-spacing:0.1em;margin-bottom:6px">PHASE 2</div>
+          <h4 style="font-size:1rem;margin-bottom:8px">北上广深一线突破</h4>
+          <p style="font-size:0.8rem;color:#888;line-height:1.7">北京、广州、深圳、香港及强省会<br>轻资产投入+战略合作伙伴联营</p>
+        </div>
+        <div style="padding:24px;border-left:4px solid var(--jade);background:linear-gradient(90deg,rgba(45,125,107,0.03),transparent)">
+          <div style="font-size:0.7rem;color:var(--jade);font-weight:700;letter-spacing:0.1em;margin-bottom:6px">PHASE 3</div>
+          <h4 style="font-size:1rem;margin-bottom:8px">轻资产全国扩张</h4>
+          <p style="font-size:0.8rem;color:#888;line-height:1.7">城市联营 / 单店品牌授权<br>品牌+标准化+供应链输出</p>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">
+      <div class="card" style="border-top:3px solid var(--gold)"><h4 style="font-size:0.9rem;margin-bottom:8px;color:var(--gold)">城市联营模式（主推）</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">风险共担、收益共享。适配核心经销商及有高端餐饮经验的合作伙伴。</p></div>
+      <div class="card" style="border-top:3px solid var(--wine)"><h4 style="font-size:0.9rem;margin-bottom:8px;color:var(--wine)">单店品牌授权</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">一次性授权费+年度管理费。适配文旅景区、高端商业体、酒店集团。</p></div>
+      <div class="card" style="border-top:3px solid var(--jade)"><h4 style="font-size:0.9rem;margin-bottom:8px;color:var(--jade)">兰亭荟轻量铺网</h4><p style="font-size:0.8rem;color:#666;line-height:1.7">"酒行+体验馆"店中店模式。低门槛快落地，适配全国各级经销商。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 7. VALUE ========== -->
+<section class="section" id="value" style="position:relative;overflow:hidden">
+  <!-- Cultural pattern: auspicious clouds 祥云 -->
+  <div class="section-deco deco-float" style="right:10px;top:15px;width:240px;height:170px;opacity:0.22">
+    <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="g7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355" stop-opacity="0.6"/><stop offset="100%" stop-color="#E8D5A0" stop-opacity="0.2"/></linearGradient></defs>
+      <path d="M30 70 Q20 55 35 45 Q30 30 50 28 Q55 15 75 20 Q90 10 105 22 Q120 15 130 30 Q145 28 145 45 Q155 55 140 65 Q145 80 125 78 Q110 88 90 80 Q75 90 60 78 Q40 85 30 70Z" fill="none" stroke="url(#g7)" stroke-width="2.5"/>
+      <path d="M50 65 Q45 55 55 50 Q52 42 65 40 Q68 32 82 36 Q92 30 100 38 Q108 35 112 45 Q120 42 118 52 Q125 58 115 63 Q118 70 105 68 Q95 75 85 68 Q75 72 68 66 Q55 72 50 65Z" fill="url(#g7)" opacity="0.15"/>
+    </svg>
+  </div>
+  <div class="section-header"><div class="gold-line"></div><h2>七、项目核心价值总结</h2><div class="en">CORE VALUE SUMMARY</div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+    <div class="card" style="text-align:center;padding:40px 28px;border-bottom:3px solid var(--gold)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,rgba(197,163,85,0.08),rgba(197,163,85,0.16));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;font-weight:900;color:var(--gold);font-family:'Noto Serif SC',serif">C</div>
+      <h4 style="font-size:1.05rem;margin-bottom:10px">对消费者</h4>
+      <p style="font-size:0.83rem;color:#666;line-height:1.8">五感沉浸式美学体验，千年黄酒文化可感、可知、可传。三大矩阵覆盖全消费需求。</p>
+    </div>
+    <div class="card" style="text-align:center;padding:40px 28px;border-bottom:3px solid var(--wine)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,rgba(139,34,82,0.06),rgba(139,34,82,0.14));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;font-weight:900;color:var(--wine);font-family:'Noto Serif SC',serif">P</div>
+      <h4 style="font-size:1.05rem;margin-bottom:10px">对合作伙伴</h4>
+      <p style="font-size:0.83rem;color:#666;line-height:1.8">经市场验证的可复制、高盈利、低风险商业模型。共享黄酒高端化全国化红利。</p>
+    </div>
+    <div class="card" style="text-align:center;padding:40px 28px;border-bottom:3px solid var(--jade)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,rgba(45,125,107,0.06),rgba(45,125,107,0.14));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;font-weight:900;color:var(--jade);font-family:'Noto Serif SC',serif">S</div>
+      <h4 style="font-size:1.05rem;margin-bottom:10px">对城市与行业</h4>
+      <p style="font-size:0.83rem;color:#666;line-height:1.8">绍兴城市文化核心地标。黄酒行业全国化、年轻化、高端化转型全新路径。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 8. MARKETING CHANNELS ========== -->
+<section id="marketing" style="background:linear-gradient(160deg,#FAF7F0 0%,#F2EBD8 40%,#EDE4CC 70%,#FAF7F0 100%);padding:90px 0;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 75% 25%,rgba(197,163,85,0.1) 0%,transparent 50%),radial-gradient(ellipse at 20% 75%,rgba(45,125,107,0.06) 0%,transparent 40%);pointer-events:none"></div>
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1">
+    <div class="section-header"><div class="gold-line"></div><h2>营销渠道分析</h2><div class="en">MARKETING CHANNEL ANALYSIS</div></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px">
+      <div class="card" style="padding:28px;border-top:3px solid var(--gold)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(197,163,85,0.08),rgba(197,163,85,0.18));display:flex;align-items:center;justify-content:center;font-size:1.2rem">🏛</div>
+          <div>
+            <h3 style="font-size:1.05rem;color:var(--gold-dark);font-family:'Noto Serif SC',serif;font-weight:700">自有客户资源</h3>
+            <span style="font-size:0.72rem;color:#aaa">EXISTING CUSTOMER BASE</span>
+          </div>
+        </div>
+        <div style="font-size:0.83rem;color:#666;line-height:1.9;margin-bottom:16px">
+          依托会稽山品牌多年深耕的<strong style="color:var(--gold-dark)">经销商网络与企业客户资源</strong>，精准锁定高净值商务群体，实现品牌存量向体验消费的高效转化。
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag tag-gold">经销商定向邀约</span>
+          <span class="tag tag-gold">企业团建宴请</span>
+          <span class="tag tag-gold">会员私域运营</span>
+          <span class="tag tag-gold">浙商会圈层渗透</span>
+        </div>
+      </div>
+      <div class="card" style="padding:28px;border-top:3px solid var(--wine)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(139,34,82,0.08),rgba(139,34,82,0.18));display:flex;align-items:center;justify-content:center;font-size:1.2rem">🏞</div>
+          <div>
+            <h3 style="font-size:1.05rem;color:var(--wine);font-family:'Noto Serif SC',serif;font-weight:700">区域景区游客资源</h3>
+            <span style="font-size:0.72rem;color:#aaa">REGIONAL TOURISM TRAFFIC</span>
+          </div>
+        </div>
+        <div style="font-size:0.83rem;color:#666;line-height:1.9;margin-bottom:16px">
+          绍兴作为国家级历史文化名城，年游客量超千万。与<strong style="color:var(--wine)">鲁迅故里、兰亭、沈园等核心景区</strong>形成文旅联动，承接区域内高质量文化游客自然客流。
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="tag tag-wine">景区联票合作</span>
+          <span class="tag tag-wine">旅行社定点推荐</span>
+          <span class="tag tag-wine">地接导游分佣</span>
+          <span class="tag tag-wine">文旅专线接驳</span>
+        </div>
+      </div>
+      <div class="card" style="padding:28px;border-top:3px solid var(--jade);position:relative;overflow:hidden">
+        <div style="position:absolute;top:8px;right:8px;padding:3px 10px;border-radius:6px;font-size:0.65rem;font-weight:700;background:linear-gradient(135deg,var(--jade),var(--jade-light));color:#fff;letter-spacing:0.05em">核心渠道</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(45,125,107,0.08),rgba(45,125,107,0.18));display:flex;align-items:center;justify-content:center;font-size:1.2rem">🌐</div>
+          <div>
+            <h3 style="font-size:1.05rem;color:var(--jade);font-family:'Noto Serif SC',serif;font-weight:700">自媒体 + OTA 全国引流</h3>
+            <span style="font-size:0.72rem;color:#aaa">NATIONAL DIGITAL TRAFFIC · KEY CHANNEL</span>
+          </div>
+        </div>
+        <div style="font-size:0.83rem;color:#666;line-height:1.9;margin-bottom:16px">
+          <strong style="color:var(--jade)">全国流量获取的核心引擎。</strong>通过抖音、小红书、视频号等内容平台打造沉浸式餐秀爆款内容，联合携程、美团、飞猪等OTA平台实现全国范围的精准获客与即时转化。
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+          <span class="tag tag-jade">抖音/小红书种草</span>
+          <span class="tag tag-jade">KOL/KOC达人探店</span>
+          <span class="tag tag-jade">携程/美团/飞猪</span>
+          <span class="tag tag-jade">抖音团购直播</span>
+          <span class="tag tag-jade">微信视频号私域</span>
+        </div>
+        <div style="padding:12px 16px;background:linear-gradient(135deg,rgba(45,125,107,0.04),rgba(45,125,107,0.1));border:1px solid rgba(45,125,107,0.15);border-radius:8px;font-size:0.78rem;color:#777;line-height:1.7">
+          <strong style="color:var(--jade)">核心策略：</strong>以沉浸式餐秀的视觉冲击力为内容抓手，打造"绍兴必去体验"标签，通过<strong style="color:var(--ink)">短视频引流 → OTA转化 → 到店体验 → UGC二次传播</strong>的闭环，实现全国客源持续获取。
+        </div>
+      </div>
+    </div>
+    <div class="card" style="padding:24px;border:1px solid rgba(197,163,85,0.15)">
+      <div style="text-align:center;margin-bottom:16px">
+        <h3 style="font-size:1.1rem;color:var(--gold-dark);font-family:'Noto Serif SC',serif;font-weight:700">三大渠道协同引流矩阵</h3>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+        <div style="text-align:center;padding:14px 20px;background:linear-gradient(135deg,rgba(197,163,85,0.06),rgba(197,163,85,0.12));border-radius:10px;min-width:140px">
+          <div style="font-size:0.72rem;color:#aaa;margin-bottom:4px">自有客户</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--gold-dark)">基础客源</div>
+          <div style="font-size:0.72rem;color:#999;margin-top:2px">高复购 · 高客单</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--gold)">→</div>
+        <div style="text-align:center;padding:14px 20px;background:linear-gradient(135deg,rgba(139,34,82,0.04),rgba(139,34,82,0.1));border-radius:10px;min-width:140px">
+          <div style="font-size:0.72rem;color:#aaa;margin-bottom:4px">景区联动</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--wine)">区域客源</div>
+          <div style="font-size:0.72rem;color:#999;margin-top:2px">稳定流量 · 季节性</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--gold)">→</div>
+        <div style="text-align:center;padding:14px 20px;background:linear-gradient(135deg,rgba(45,125,107,0.04),rgba(45,125,107,0.12));border-radius:10px;min-width:140px;border:1px solid rgba(45,125,107,0.2)">
+          <div style="font-size:0.72rem;color:#aaa;margin-bottom:4px">OTA + 自媒体</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--jade)">全国客源</div>
+          <div style="font-size:0.72rem;color:#999;margin-top:2px">规模增长 · 核心引擎</div>
+        </div>
+        <div style="font-size:1.2rem;color:var(--gold)">→</div>
+        <div style="text-align:center;padding:14px 20px;background:linear-gradient(135deg,rgba(197,163,85,0.06),rgba(139,34,82,0.04));border-radius:10px;min-width:140px;border:1px solid rgba(197,163,85,0.15)">
+          <div style="font-size:0.72rem;color:#aaa;margin-bottom:4px">协同转化</div>
+          <div style="font-size:1rem;font-weight:800;color:var(--ink)">品牌增值</div>
+          <div style="font-size:0.72rem;color:#999;margin-top:2px">全域覆盖 · 长效运营</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--ink);color:rgba(255,255,255,0.35);text-align:center;padding:48px 24px;font-size:0.78rem;position:relative;overflow:hidden">
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+  <!-- Footer cultural watermark -->
+  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:0.02;pointer-events:none">
+    <svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="gf" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C5A355"/><stop offset="100%" stop-color="#E8D5A0"/></linearGradient></defs>
+      <path d="M50 80 Q70 40 90 60 Q110 20 130 50 Q150 10 170 40 Q190 20 210 35 Q230 10 250 30" fill="none" stroke="url(#gf)" stroke-width="2"/>
+      <path d="M30 90 Q80 82 130 88 Q180 92 230 85 Q260 82 270 88" fill="none" stroke="url(#gf)" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div style="color:var(--gold);font-size:1.1rem;font-family:'Noto Serif SC',serif;margin-bottom:6px;letter-spacing:0.12em;font-weight:700">会稽山兰亭宴</div>
+  <div style="letter-spacing:0.2em;opacity:0.7">一觞越千年 · 三章见江南</div>
+  <div style="margin-top:16px;font-size:0.68rem;opacity:0.4">商业模式汇报 · 内部资料</div>
+</footer>
+<script>
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).style.display = 'block';
+  btn.classList.add('active');
+  setTimeout(() => { [chartLty, chartYw, chartOcc, chartAnnual].forEach(c => c && c.resize()); calc(); }, 50);
+}
+
+// Scroll nav
+window.addEventListener('scroll', () => {
+  const secs = ['hero','finance','overview','scenes','profit','revenue','member','national','marketing','value'];
+  const dots = document.querySelectorAll('.toc-dot');
+  let cur = 0;
+  secs.forEach((id, i) => { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top < window.innerHeight / 2) cur = i; });
+  dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+});
+
+function val(id) { return parseInt(document.getElementById(id).value); }
+function fmt(n) { return '¥' + Math.round(n).toLocaleString('zh-CN'); }
+function fmtW(n) { return (n / 10000).toFixed(1); }
+
+let chartScene, chartProfit, chartLty, chartYw, chartOcc, chartAnnual, chartMember;
+
+function initCharts() {
+  chartScene = echarts.init(document.getElementById('sceneChart'));
+  chartProfit = echarts.init(document.getElementById('profitChart'));
+  chartLty = echarts.init(document.getElementById('ltyChart'));
+  chartYw = echarts.init(document.getElementById('ywChart'));
+  chartOcc = echarts.init(document.getElementById('occChart'));
+  chartAnnual = echarts.init(document.getElementById('annualChart'));
+  chartMember = echarts.init(document.getElementById('memberChart'));
+
+  // Scene radar chart
+  chartScene.setOption({
+    tooltip: {},
+    legend: { bottom: 0, textStyle: { fontSize: 12 } },
+    radar: {
+      indicator: [
+        { name: '客单价', max: 1200 }, { name: '复购率', max: 100 },
+        { name: '社交传播力', max: 100 }, { name: '文化体验深度', max: 100 },
+        { name: '年轻化指数', max: 100 }, { name: '坪效', max: 100 }
+      ],
+      center: ['50%', '48%'], radius: '65%',
+      axisName: { color: '#666', fontSize: 12 },
+      splitArea: { areaStyle: { color: ['rgba(197,163,85,0.02)', 'rgba(197,163,85,0.04)'] } }
+    },
+    series: [{
+      type: 'radar',
+      data: [
+        { value: [1028, 70, 55, 95, 25, 85], name: '兰亭雅宴', areaStyle: { color: 'rgba(139,34,82,0.12)' }, lineStyle: { color: '#8B2252', width: 2 }, itemStyle: { color: '#8B2252' } },
+        { value: [398, 50, 85, 75, 55, 70], name: '兰亭宴', areaStyle: { color: 'rgba(197,163,85,0.12)' }, lineStyle: { color: '#C5A355', width: 2 }, itemStyle: { color: '#C5A355' } },
+        { value: [42, 85, 92, 35, 95, 60], name: '兰亭荟', areaStyle: { color: 'rgba(45,125,107,0.12)' }, lineStyle: { color: '#2D7D6B', width: 2 }, itemStyle: { color: '#2D7D6B' } }
+      ]
+    }]
+  });
+
+  // Profit donut - clean single chart
+  chartProfit.setOption({
+    tooltip: { trigger: 'item', formatter: function(p) { return p.name + '<br/>占比: ' + p.percent.toFixed(1) + '%'; } },
+    series: [{
+      type: 'pie', radius: ['42%', '70%'], center: ['50%', '50%'],
+      padAngle: 3, itemStyle: { borderRadius: 8 },
+      label: {
+        show: true, fontSize: 13, fontWeight: 600, color: '#444',
+        formatter: function(p) { return '{name|' + p.name + '}\n{pct|' + p.percent.toFixed(0) + '%}'; },
+        rich: {
+          name: { fontSize: 12, color: '#666', lineHeight: 22 },
+          pct: { fontSize: 18, fontWeight: 800, lineHeight: 28 }
+        }
+      },
+      labelLine: { length: 16, length2: 20, lineStyle: { width: 1.5 } },
+      emphasis: {
+        scaleSize: 12,
+        label: { fontSize: 15, fontWeight: 700 },
+        itemStyle: { shadowBlur: 20, shadowColor: 'rgba(0,0,0,0.15)' }
+      },
+      data: [
+        { value: 60, name: '门票套餐与服务费', itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{ offset: 0, color: '#C5A355' }, { offset: 1, color: '#E8D5A0' }]) } },
+        { value: 30, name: '酒水零售与文创', itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{ offset: 0, color: '#8B2252' }, { offset: 1, color: '#C06080' }]) } },
+        { value: 6, name: '品牌加盟与大客户', itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{ offset: 0, color: '#2D7D6B' }, { offset: 1, color: '#3A9D88' }]) } },
+        { value: 4, name: '兰亭荟 · 增值板块', itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{ offset: 0, color: '#9E8340' }, { offset: 1, color: '#C5A355' }]) } }
+      ]
+    }, {
+      type: 'pie', radius: ['0%', '32%'], center: ['50%', '50%'],
+      silent: true, label: { show: false },
+      itemStyle: { color: 'rgba(250,247,240,0.6)' },
+      data: [{ value: 1 }]
+    }],
+    graphic: [{
+      type: 'text', left: 'center', top: 'center',
+      style: {
+        text: '收入\n结构',
+        textAlign: 'center', fontSize: 16, fontWeight: 700,
+        fill: '#9E8340', fontFamily: 'Noto Serif SC, serif', lineHeight: 24
+      }
+    }]
+  });
+
+  // Member funnel
+  chartMember.setOption({
+    tooltip: { trigger: 'item' },
+    series: [{
+      type: 'funnel', left: '10%', top: 20, bottom: 20, width: '80%',
+      min: 0, max: 100, sort: 'descending', gap: 5,
+      label: { show: true, position: 'inside', fontSize: 13, color: '#fff', fontWeight: 600 },
+      labelLine: { show: false },
+      data: [
+        { value: 100, name: '普通会员 · 注册即入', itemStyle: { color: '#A0A0B0', borderRadius: 4 } },
+        { value: 65, name: '银卡 · 消费¥5,000', itemStyle: { color: '#8A8A9A', borderRadius: 4 } },
+        { value: 35, name: '金卡 · 消费¥20,000', itemStyle: { color: '#C5A355', borderRadius: 4 } },
+        { value: 12, name: '钻石 · 消费¥80,000', itemStyle: { color: '#8B2252', borderRadius: 4 } }
+      ]
+    }]
+  });
+
+  calc();
+}
+
+function calc() {
+  const ids = ['lty_s1','lty_p1','lty_s2','lty_p2','lty_s3','lty_p3','yw_n1','yw_p1','yw_c1','yw_n2','yw_p2','yw_c2','yw_n3','yw_p3','yw_c3','occ1','occ2','occ3','days1','days2','days3','shows'];
+  ids.forEach(id => {
+    const v = val(id), el = document.getElementById('v_' + id);
+    if (el) el.textContent = id.startsWith('occ') ? v + '%' : v;
+  });
+
+  // 兰亭宴
+  const s1 = val('lty_s1'), p1 = val('lty_p1'), s2 = val('lty_s2'), p2 = val('lty_p2'), s3 = val('lty_s3'), p3 = val('lty_p3');
+  const ltyTotal = s1 + s2 + s3;
+  const r1 = s1 * p1, r2 = s2 * p2, r3 = s3 * p3;
+  const ltyFull = r1 + r2 + r3;
+  const ltyAvg = ltyTotal > 0 ? Math.round(ltyFull / ltyTotal) : 0;
+
+  document.getElementById('lty_total_seats').textContent = ltyTotal;
+  document.getElementById('lty_avg_price').textContent = '¥' + ltyAvg;
+  document.getElementById('lty_revenue').textContent = fmt(ltyFull);
+
+  if (chartLty) {
+    chartLty.setOption({
+      tooltip: { trigger: 'axis', formatter: p => p.map(i => i.seriesName + ': ' + fmt(i.value)).join('<br>') },
+      grid: { left: 50, right: 20, top: 20, bottom: 40 },
+      xAxis: { type: 'category', data: ['惠民档', '标准档', '精品档'], axisLabel: { fontSize: 12, fontWeight: 600 } },
+      yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(1) + '万' }, splitLine: { lineStyle: { type: 'dashed', color: '#eee' } } },
+      series: [{ name: '单场收入', type: 'bar', data: [r1, r2, r3], barWidth: 40,
+        itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#C5A355' }, { offset: 1, color: '#E8D5A0' }]), borderRadius: [6, 6, 0, 0] },
+        label: { show: true, position: 'top', formatter: p => fmt(p.value), fontSize: 11, fontWeight: 600, color: '#C5A355' }
+      }]
+    });
+  }
+
+  // 兰亭雅宴
+  const yn1 = val('yw_n1'), yp1 = val('yw_p1'), yc1 = val('yw_c1');
+  const yn2 = val('yw_n2'), yp2 = val('yw_p2'), yc2 = val('yw_c2');
+  const yn3 = val('yw_n3'), yp3 = val('yw_p3'), yc3 = val('yw_c3');
+  const ywRooms = yn1 + yn2 + yn3;
+  const ywPax = yn1 * yc1 + yn2 * yc2 + yn3 * yc3;
+  const yr1 = yn1 * yp1 * yc1 * 1.1, yr2 = yn2 * yp2 * yc2 * 1.1, yr3 = yn3 * yp3 * yc3 * 1.1;
+  const ywFull = yr1 + yr2 + yr3;
+  const ywAvgSpend = ywPax > 0 ? Math.round(ywFull / ywPax) : 0;
+  const ywPerRoom = ywRooms > 0 ? Math.round(ywFull / ywRooms) : 0;
+
+  document.getElementById('yw_total_rooms').textContent = ywRooms;
+  document.getElementById('yw_total_pax').textContent = ywPax;
+  document.getElementById('yw_revenue').textContent = fmt(ywFull);
+  document.getElementById('yw_avg_spend').textContent = '¥' + ywAvgSpend;
+  document.getElementById('yw_per_room').textContent = '¥' + ywPerRoom.toLocaleString();
+
+  if (chartYw) {
+    chartYw.setOption({
+      tooltip: { trigger: 'axis' },
+      legend: { bottom: 0, textStyle: { fontSize: 11 } },
+      grid: { left: 55, right: 30, top: 20, bottom: 50 },
+      xAxis: { type: 'category', data: ['基础档', '中档', '高端档'], axisLabel: { fontSize: 12, fontWeight: 600 } },
+      yAxis: { type: 'value', axisLabel: { formatter: v => (v/10000).toFixed(1) + '万' }, splitLine: { lineStyle: { type: 'dashed', color: '#eee' } } },
+      series: [
+        { name: '总收入(含服务费)', type: 'bar', data: [Math.round(yr1), Math.round(yr2), Math.round(yr3)], barWidth: 32,
+          itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#8B2252' }, { offset: 1, color: '#C06080' }]), borderRadius: [6, 6, 0, 0] },
+          label: { show: true, position: 'top', formatter: p => fmt(p.value), fontSize: 11, fontWeight: 600, color: '#8B2252' }
+        },
+        { name: '人均客单(含服务费)', type: 'line', data: [
+            yn1 > 0 && yc1 > 0 ? Math.round(yr1 / (yn1 * yc1)) : 0,
+            yn2 > 0 && yc2 > 0 ? Math.round(yr2 / (yn2 * yc2)) : 0,
+            yn3 > 0 && yc3 > 0 ? Math.round(yr3 / (yn3 * yc3)) : 0
+          ],
+          yAxisIndex: 0, lineStyle: { color: '#C5A355', width: 2, type: 'dashed' }, itemStyle: { color: '#C5A355' }, symbol: 'circle', symbolSize: 8,
+          label: { show: true, formatter: p => '¥' + p.value + '/人', fontSize: 10, color: '#C5A355' }
+        }
+      ]
+    });
+  }
+
+  // Occupancy
+  const o1 = val('occ1') / 100, o2 = val('occ2') / 100, o3 = val('occ3') / 100;
+  const d1 = val('days1'), d2 = val('days2'), d3 = val('days3');
+  const sh = val('shows');
+  const totalD = d1 + d2 + d3;
+  const avgOcc = totalD > 0 ? ((o1 * d1 + o2 * d2 + o3 * d3) / totalD * 100).toFixed(1) : 0;
+
+  const ltyAH = ltyFull * o1 * d1 * sh, ltyAW = ltyFull * o2 * d2 * sh, ltyAD = ltyFull * o3 * d3 * sh;
+  const ltyAnn = ltyAH + ltyAW + ltyAD;
+  const ywAH = ywFull * o1 * d1 * sh, ywAW = ywFull * o2 * d2 * sh, ywAD = ywFull * o3 * d3 * sh;
+  const ywAnn = ywAH + ywAW + ywAD;
+  const totalAnn = ltyAnn + ywAnn;
+
+  document.getElementById('m_lty_year').textContent = fmtW(ltyAnn);
+  document.getElementById('m_yw_year').textContent = fmtW(ywAnn);
+  document.getElementById('m_total_year').textContent = fmtW(totalAnn);
+  document.getElementById('m_avg_occ').textContent = avgOcc + '%';
+  document.getElementById('total_annual').textContent = fmt(totalAnn);
+  document.getElementById('lty_annual_display').textContent = fmt(ltyAnn);
+  document.getElementById('yw_annual_display').textContent = fmt(ywAnn);
+
+  // Hero KPIs
+  document.getElementById('hero_revenue').textContent = fmtW(totalAnn) + ' 万元';
+  // Finance overview dynamic updates
+  var finLtyEl = document.getElementById('fin_lty_annual');
+  if(finLtyEl) finLtyEl.textContent = fmtW(ltyAnn) + ' 万';
+  var finYwEl = document.getElementById('fin_yw_annual');
+  if(finYwEl) finYwEl.textContent = fmtW(ywAnn) + ' 万';
+  var finHolEl = document.getElementById('fin_holiday_rev');
+  if(finHolEl) finHolEl.textContent = fmtW(ltyAH + ywAH) + ' 万';
+  var finWeekEl = document.getElementById('fin_weekend_rev');
+  if(finWeekEl) finWeekEl.textContent = fmtW(ltyAW + ywAW) + ' 万';
+  var finWorkEl = document.getElementById('fin_workday_rev');
+  if(finWorkEl) finWorkEl.textContent = fmtW(ltyAD + ywAD) + ' 万';
+  var finOcc1 = document.getElementById('fin_occ1_display');
+  if(finOcc1) finOcc1.textContent = val('occ1') + '%';
+  var finOcc2 = document.getElementById('fin_occ2_display');
+  if(finOcc2) finOcc2.textContent = val('occ2') + '%';
+  var finOcc3 = document.getElementById('fin_occ3_display');
+  if(finOcc3) finOcc3.textContent = val('occ3') + '%';
+  const roi = totalAnn > 0 ? ((totalAnn * 0.55) / (totalAnn * 0.6) * 100).toFixed(0) + '%' : '--';
+  document.getElementById('hero_roi').textContent = roi;
+
+  if (chartOcc) {
+    chartOcc.setOption({
+      tooltip: { trigger: 'axis' },
+      legend: { bottom: 0, textStyle: { fontSize: 11 } },
+      grid: { left: 55, right: 40, top: 25, bottom: 50 },
+      xAxis: { type: 'category', data: ['法定假日', '周末', '工作日'] },
+      yAxis: [
+        { type: 'value', name: '收入', axisLabel: { formatter: v => (v/10000).toFixed(0) + '万' } },
+        { type: 'value', name: '上座率', max: 100, axisLabel: { formatter: '{value}%' } }
+      ],
+      series: [
+        { name: '兰亭宴', type: 'bar', stack: 'r', data: [Math.round(ltyAH), Math.round(ltyAW), Math.round(ltyAD)], itemStyle: { color: '#C5A355', borderRadius: [0, 0, 0, 0] } },
+        { name: '兰亭雅宴', type: 'bar', stack: 'r', data: [Math.round(ywAH), Math.round(ywAW), Math.round(ywAD)], itemStyle: { color: '#8B2252', borderRadius: [4, 4, 0, 0] } },
+        { name: '上座率', type: 'line', yAxisIndex: 1, data: [o1 * 100, o2 * 100, o3 * 100], itemStyle: { color: '#2D7D6B' }, lineStyle: { width: 3 }, symbol: 'circle', symbolSize: 10 }
+      ]
+    });
+  }
+
+  if (chartAnnual) {
+    chartAnnual.setOption({
+      title: { text: '年度收入结构分析', left: 'center', top: 5, textStyle: { fontSize: 15, fontWeight: 700, color: '#333' } },
+      tooltip: { trigger: 'item', formatter: '{b}: {c}万 ({d}%)' },
+      legend: { bottom: 0, textStyle: { fontSize: 11 } },
+      series: [{
+        type: 'pie', radius: ['32%', '62%'], center: ['50%', '52%'], roseType: 'radius',
+        label: { formatter: '{b}\n{c}万', fontSize: 11 },
+        data: [
+          { value: parseFloat(fmtW(ltyAH)), name: '兰亭宴·假日', itemStyle: { color: '#D4B96A' } },
+          { value: parseFloat(fmtW(ltyAW)), name: '兰亭宴·周末', itemStyle: { color: '#C5A355' } },
+          { value: parseFloat(fmtW(ltyAD)), name: '兰亭宴·工作日', itemStyle: { color: '#A08640' } },
+          { value: parseFloat(fmtW(ywAH)), name: '雅宴·假日', itemStyle: { color: '#B03068' } },
+          { value: parseFloat(fmtW(ywAW)), name: '雅宴·周末', itemStyle: { color: '#8B2252' } },
+          { value: parseFloat(fmtW(ywAD)), name: '雅宴·工作日', itemStyle: { color: '#6A1A3F' } }
+        ]
+      }]
+    });
+  }
+}
+
+window.addEventListener('resize', () => {
+  [chartScene, chartProfit, chartLty, chartYw, chartOcc, chartAnnual, chartMember].forEach(c => c && c.resize());
+});
+window.addEventListener('DOMContentLoaded', initCharts);
+</script>
+<!-- Wine Flow Transition Overlay -->
+<div class="wine-transition-overlay" id="wineOverlay">
+  <svg width="100%" height="100%" style="position:absolute;inset:0" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="wineGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#C5A355" stop-opacity="0.6"/>
+        <stop offset="30%" stop-color="#B8943A" stop-opacity="0.4"/>
+        <stop offset="60%" stop-color="#A07828" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#8B6520" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path class="wine-stream-path" id="wineStream1" d="M 50%,0 Q 48%,25% 52%,50% Q 55%,75% 50%,100%" fill="none" stroke="url(#wineGrad)" stroke-width="60" stroke-linecap="round"/>
+    <path class="wine-stream-path" id="wineStream2" d="M 30%,0 Q 35%,30% 28%,55% Q 22%,80% 30%,100%" fill="none" stroke="url(#wineGrad)" stroke-width="30" stroke-linecap="round" opacity="0.5"/>
+    <path class="wine-stream-path" id="wineStream3" d="M 70%,0 Q 65%,35% 72%,60% Q 78%,85% 70%,100%" fill="none" stroke="url(#wineGrad)" stroke-width="25" stroke-linecap="round" opacity="0.4"/>
+  </svg>
+</div>
+
+<script>
+// === Wine Flow Page Transition ===
+(function() {
+  const sectionIds = ['hero','finance','overview','scenes','profit','revenue','member','national','value'];
+  let lastSectionIdx = 0;
+  let isTransitioning = false;
+
+  // Add section-reveal class to all content sections
+  document.querySelectorAll('.section, #scenes > div, #national > div, #finance > div').forEach(el => {
+    el.classList.add('section-reveal');
+  });
+
+  // Create wine drip particles
+  function createDrips() {
+    const overlay = document.getElementById('wineOverlay');
+    // Clear old drips
+    overlay.querySelectorAll('.wine-drip').forEach(d => d.remove());
+
+    const count = 12 + Math.floor(Math.random() * 8);
+    for (let i = 0; i < count; i++) {
+      const drip = document.createElement('div');
+      drip.className = 'wine-drip';
+      const x = 5 + Math.random() * 90;
+      const h = 20 + Math.random() * 60;
+      const delay = Math.random() * 0.6;
+      const dur = 1.0 + Math.random() * 0.8;
+      drip.style.cssText = `left:${x}%;top:-${h}px;height:${h}px;--delay:${delay}s;--dur:${dur}s`;
+      overlay.appendChild(drip);
+    }
+    return overlay.querySelectorAll('.wine-drip');
+  }
+
+  // Trigger wine flow transition
+  function triggerWineFlow() {
+    if (isTransitioning) return;
+    isTransitioning = true;
+
+    const streams = document.querySelectorAll('.wine-stream-path');
+    const drips = createDrips();
+
+    // Activate streams
+    streams.forEach(s => {
+      s.classList.remove('active');
+      void s.offsetWidth; // force reflow
+      s.classList.add('active');
+    });
+
+    // Activate drips
+    drips.forEach(d => {
+      d.classList.remove('active');
+      void d.offsetWidth;
+      d.classList.add('active');
+    });
+
+    setTimeout(() => {
+      streams.forEach(s => s.classList.remove('active'));
+      drips.forEach(d => d.classList.remove('active'));
+      isTransitioning = false;
+    }, 1800);
+  }
+
+  // IntersectionObserver for section reveals + transition trigger
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.section-reveal').forEach(el => revealObserver.observe(el));
+
+  // Detect section changes for wine flow
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = sectionIds.indexOf(entry.target.id);
+        if (idx !== -1 && idx !== lastSectionIdx) {
+          lastSectionIdx = idx;
+          triggerWineFlow();
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  // Fix SVG path percentages (SVG doesn't support %)
+  function fixSvgPaths() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    document.getElementById('wineStream1').setAttribute('d',
+      `M ${w*0.5},0 Q ${w*0.48},${h*0.25} ${w*0.52},${h*0.5} Q ${w*0.55},${h*0.75} ${w*0.5},${h}`);
+    document.getElementById('wineStream2').setAttribute('d',
+      `M ${w*0.3},0 Q ${w*0.35},${h*0.3} ${w*0.28},${h*0.55} Q ${w*0.22},${h*0.8} ${w*0.3},${h}`);
+    document.getElementById('wineStream3').setAttribute('d',
+      `M ${w*0.7},0 Q ${w*0.65},${h*0.35} ${w*0.72},${h*0.6} Q ${w*0.78},${h*0.85} ${w*0.7},${h}`);
+  }
+  fixSvgPaths();
+  window.addEventListener('resize', fixSvgPaths);
+})();
+</script>
+</body>
+</html>
